@@ -12,11 +12,16 @@ public class PlayerMoveent : MonoBehaviour
     private bool canDash = true;
     private bool isDashing;
     private float dashingPower = 24f;
-    private float dashingTime = 0.2f;
+    private float dashingTime = 0.1f;
     private float dashingCooldown = 1f;
+
+    [SerializeField] private GameObject Hitbox;
+    private bool canAttack;
 
     void Awake()
     {
+        canAttack = true;
+        Hitbox.SetActive(false);
         body = GetComponent<Rigidbody2D>();
     }
 
@@ -27,29 +32,25 @@ public class PlayerMoveent : MonoBehaviour
             return;
         }
 
-        //Debug.Log(doubleJump);
+        Debug.Log(doubleJump);
         body.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.linearVelocityY);
 
-        if(Input.GetButtonDown("Jump") && doubleJump != 0)
+        if (Input.GetButtonDown("Jump") && doubleJump != 0)
         {
             body.linearVelocity = new Vector2(body.linearVelocityX, jumpHeight);
             doubleJump--;
-        }
-
-        if(Input.GetButtonUp("Jump") && body.linearVelocityY > 0f)
-        {
-            body.linearVelocity = new Vector2(body.linearVelocityX, jumpHeight * 0.5f);
         }
 
         if(Input.GetKeyDown(KeyCode.Mouse1) && canDash)
         {
             StartCoroutine(Dash());
         }
-    }
 
-    private void FixedUpdate()
-    {
-       
+        if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
+        {
+            StartCoroutine(Attack());
+            Debug.Log("test");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -80,5 +81,15 @@ public class PlayerMoveent : MonoBehaviour
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
+    }
+
+    private IEnumerator Attack()
+    {
+        Hitbox.SetActive(true);
+        canAttack = false;
+        yield return new WaitForSeconds(0.2f);
+        Hitbox.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        canAttack = true;
     }
 }
