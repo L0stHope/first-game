@@ -1,13 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerMoveent : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float jumpHeight;
     private Rigidbody2D body;
     private int facingDirection;
-    private int doubleJump;
+    public int doubleJump;
+
+    private bool isStunned;
+    [SerializeField] private float stunDuration;
 
     private bool canDash = true;
     private bool isDashing;
@@ -20,19 +23,29 @@ public class PlayerMoveent : MonoBehaviour
 
     void Awake()
     {
+        isStunned = false;
+        doubleJump = 2;
         canAttack = true;
-        Hitbox.SetActive(false);
         body = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        if (isDashing)
+        if (isDashing || isStunned)
         {
             return;
         }
 
-        Debug.Log(doubleJump);
+        if (body.linearVelocityX < 1)
+        {
+            facingDirection = -1;
+        }
+        else if (body.linearVelocityX > 1)
+        {
+            facingDirection = 1;
+        }
+
+        Debug.Log(isStunned);
         body.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.linearVelocityY);
 
         if (Input.GetButtonDown("Jump") && doubleJump != 0)
@@ -49,7 +62,7 @@ public class PlayerMoveent : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
         {
             StartCoroutine(Attack());
-            Debug.Log("test");
+            //Debug.Log("test");
         }
     }
 
@@ -57,21 +70,21 @@ public class PlayerMoveent : MonoBehaviour
     {
         if(collision.gameObject.tag == "Ground")
         {
-            //isGrounded = true;
             doubleJump = 2;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Enemy"))
+        {
+            Debug.Log("test");
+            StartCoroutine(Stun());
         }
     }
 
     private IEnumerator Dash()
     {
-        if (body.linearVelocityX < 1)
-        {
-            facingDirection = -1;
-        }
-        else if (body.linearVelocityX > 1)
-        {
-            facingDirection = 1;
-        }
         canDash = false;
         isDashing = true;
         float originalGravity = body.gravityScale;
@@ -91,5 +104,13 @@ public class PlayerMoveent : MonoBehaviour
         Hitbox.SetActive(false);
         yield return new WaitForSeconds(0.2f);
         canAttack = true;
+    }
+
+    private IEnumerator Stun()
+    {
+        isStunned = true;
+        body.linearVelocity = new Vector2(5f * -facingDirection, 5f);
+        yield return new WaitForSeconds(stunDuration);
+        isStunned = false;
     }
 }
