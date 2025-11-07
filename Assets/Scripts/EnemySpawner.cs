@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
-    float horizontalInput = Input.GetAxis("Horizontal");
-    float verticalInput = Input.GetAxis("Vertical");
+    [SerializeField] private GameObject enemy;
+    [SerializeField] private GameObject enemySin;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
