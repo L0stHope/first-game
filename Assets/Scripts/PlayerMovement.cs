@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
-    [SerializeField] private float jumpHeight;
+    public float jumpHeight;
     private Rigidbody2D body;
     private int facingDirection;
     public int doubleJump;
@@ -23,10 +23,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        
         isStunned = false;
         doubleJump = 2;
         canAttack = true;
         body = GetComponent<Rigidbody2D>();
+        
     }
 
     void Update()
@@ -45,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
             facingDirection = 1;
         }
 
-        Debug.Log(isStunned);
         body.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.linearVelocityY);
 
         if (Input.GetButtonDown("Jump") && doubleJump != 0)
@@ -76,10 +77,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy"))
         {
-            Debug.Log("test");
-            StartCoroutine(Stun());
+            if (!isStunned)
+            {
+                doubleJump = 1;
+                //Debug.Log("test");
+                StartCoroutine(Stun());
+            }
         }
     }
 
@@ -109,7 +114,8 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Stun()
     {
         isStunned = true;
-        body.linearVelocity = new Vector2(5f * -facingDirection, 5f);
+        
+        body.linearVelocity = new Vector2(3f * -facingDirection, 3f);
         yield return new WaitForSeconds(stunDuration);
         isStunned = false;
     }
