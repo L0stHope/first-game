@@ -1,16 +1,17 @@
 using UnityEngine;
 using TMPro;
 
-public class StopwatchTimer : MonoBehaviour
+public class Timer : MonoBehaviour
 {
-    public TMP_Text timeText;     // Reference to a UI Text component
+    public TMP_Text timeText;
     private float elapsedTime;
     private bool isRunning = false;
+    public int minutes, seconds;
 
     void Start()
     {
         elapsedTime = 0f;
-        isRunning = true; // automatically start counting
+        isRunning = true;
     }
 
     void Update()
@@ -18,24 +19,10 @@ public class StopwatchTimer : MonoBehaviour
         if (isRunning)
         {
             elapsedTime += Time.deltaTime;
-            DisplayTime(elapsedTime);
+            minutes = Mathf.FloorToInt(elapsedTime / 60);
+            seconds = Mathf.FloorToInt(elapsedTime % 60);
+
+            timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
-    }
-
-    void DisplayTime(float timeToDisplay)
-    {
-        int minutes = Mathf.FloorToInt(timeToDisplay / 60);
-        int seconds = Mathf.FloorToInt(timeToDisplay % 60);
-
-        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
-
-    // Optional: control functions
-    public void StartTimer() => isRunning = true;
-    public void StopTimer() => isRunning = false;
-    public void ResetTimer()
-    {
-        elapsedTime = 0f;
-        DisplayTime(0f);
     }
 }
