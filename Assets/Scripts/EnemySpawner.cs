@@ -9,7 +9,6 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject enemy;
     [SerializeField] private GameObject timer;
     private float seconds;
-    private int cd;
     private bool onCooldown;
 
     // Update is called once per frame
@@ -33,6 +32,5 @@ public class EnemySpawner : MonoBehaviour
         temp.SetActive(true);
         yield return new WaitForSeconds(seconds);
         onCooldown = false;
-        Debug.Log("TEst");
     }
 }

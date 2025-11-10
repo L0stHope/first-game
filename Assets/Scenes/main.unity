@@ -274,8 +274,9 @@ MonoBehaviour:
   speed: 7
   jumpHeight: 8
   doubleJump: 0
-  stunDuration: 0.5
+  stunDuration: 0.6
   Hitbox: {fileID: 873203491}
+  isInvincible: 0
 --- !u!50 &46202312
 Rigidbody2D:
   serializedVersion: 5
@@ -1216,7 +1217,6 @@ MonoBehaviour:
   body: {fileID: 46202312}
   hits: 0
   timeText: {fileID: 897665271}
-  isInvincible: 0
 --- !u!50 &873203497
 Rigidbody2D:
   serializedVersion: 5
@@ -1276,9 +1276,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1269901733}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -364, y: 241.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 120, y: -30}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &897665271
@@ -1767,9 +1767,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1362808092}
+  - {fileID: 897665270}
   - {fileID: 1692816545}
   - {fileID: 1540511676}
-  - {fileID: 897665270}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2019,10 +2019,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1269901733}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 424.83994, y: 246.87997}
-  m_SizeDelta: {x: 97.3267, y: 39.2321}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -60, y: -25}
+  m_SizeDelta: {x: 97.32672, y: 39.232117}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1362808093
 MonoBehaviour:

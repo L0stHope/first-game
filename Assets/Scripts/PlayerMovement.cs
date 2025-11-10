@@ -21,9 +21,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject Hitbox;
     private bool canAttack;
 
+    public bool isInvincible;
+
     void Awake()
     {
-        
+        isInvincible = false;
         isStunned = false;
         doubleJump = 2;
         canAttack = true;
@@ -77,12 +79,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy") && !Hitbox.GetComponent<PlayerAttackJump>().isInvincible && !isStunned && ! isDashing)
+        if (collision.CompareTag("Enemy") && !isInvincible && !isStunned && ! isDashing)
         {
             doubleJump = 1;
             //Debug.Log("test");
-            StartCoroutine(Stun());
-      
+            StartCoroutine(Stun());     
         }
     }
 
@@ -112,9 +113,23 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Stun()
     {
         isStunned = true;
-        
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(0.1f);
+        Time.timeScale = 1;
         body.linearVelocity = new Vector2(3f * -facingDirection, 3f);
-        yield return new WaitForSeconds(stunDuration);
+        yield return new WaitForSecondsRealtime(stunDuration);
         isStunned = false;
+    }
+
+    public void Invincibility()
+    {
+        StartCoroutine(InvincibilityFrames());
+    }
+
+    public IEnumerator InvincibilityFrames()
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(0.2f);
+        isInvincible = false;
     }
 }

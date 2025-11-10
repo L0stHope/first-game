@@ -10,7 +10,7 @@ public class PlayerAttackJump : MonoBehaviour
     private float jumpHeight;
     public int hits;
     public TMP_Text timeText;
-    public bool isInvincible;
+    
 
     private void Start()
     {
@@ -27,15 +27,15 @@ public class PlayerAttackJump : MonoBehaviour
             body.GetComponent<PlayerMovement>().doubleJump = 1;
             hits++;
             timeText.text = hits.ToString();
-            StartCoroutine(InvincibilityFrames());
+            body.GetComponent<PlayerMovement>().Invincibility();
+            StartCoroutine(FreezeFrame());
         }
     }
 
-    IEnumerator InvincibilityFrames()
+    private IEnumerator FreezeFrame()
     {
-        isInvincible = true;
-        yield return new WaitForSeconds(0.2f);
-        isInvincible = false;
-        Debug.Log(isInvincible);
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(0.1f);
+        Time.timeScale = 1;
     }
 }
