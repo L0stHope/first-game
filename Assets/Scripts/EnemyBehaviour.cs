@@ -16,7 +16,7 @@ public class EnemyBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        floatingSpeed = (float) (1 * Math.Pow(timer.GetComponent<Timer>().seconds + 60 * timer.GetComponent<Timer>().minutes, 0.4) + 3);
+        floatingSpeed = (float) (1 * Math.Pow(timer.GetComponent<Timer>().seconds + 60 * timer.GetComponent<Timer>().minutes, 0.5) + 3);
         sinMult = Random.Range(1, 4);
         if (body.position.x > 0)
         {

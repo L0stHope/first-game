@@ -33,5 +33,6 @@ public class EnemySpawner : MonoBehaviour
         temp.SetActive(true);
         yield return new WaitForSeconds(seconds);
         onCooldown = false;
+        Debug.Log("TEst");
     }
 }

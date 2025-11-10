@@ -77,14 +77,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy") && !Hitbox.GetComponent<PlayerAttackJump>().isInvincible && !isStunned && ! isDashing)
         {
-            if (!isStunned)
-            {
-                doubleJump = 1;
-                //Debug.Log("test");
-                StartCoroutine(Stun());
-            }
+            doubleJump = 1;
+            //Debug.Log("test");
+            StartCoroutine(Stun());
+      
         }
     }
 
