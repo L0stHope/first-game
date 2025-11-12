@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject Hitbox;
     private bool canAttack;
 
+    [SerializeField] private GameObject gameFlowManager;
     public bool isInvincible;
 
     void Awake()
@@ -35,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (isDashing || isStunned)
+        if (isDashing || isStunned || gameFlowManager.GetComponent<Pause>().isPaused || gameFlowManager.GetComponent<GameOver>().isOver)
         {
             return;
         }
