@@ -15,7 +15,7 @@ public class GameOver : MonoBehaviour
     {
         scoreDisplay.text = ("Your Score: " + gameObject.GetComponent<HighScore>().highscore);
         highestScore.text = ("Hi-Score: " + PlayerPrefs.GetInt("HighScore", 0));
-        if (player.transform.position.y < -6 || Math.Abs(player.transform.position.x) > 10)
+        if (player.transform.position.y < -6 || Math.Abs(player.transform.position.x) > 10 && isOver == false)
         {
             isOver = true;
             Time.timeScale = 0;

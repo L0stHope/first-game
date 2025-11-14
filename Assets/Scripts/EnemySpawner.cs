@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
     void Update()
     {
         seconds =  (float) (3 / (Math.Pow(timer.GetComponent<Timer>().seconds + 60 * timer.GetComponent<Timer>().minutes, 0.4) + 1) + 0.1);
-        if (!onCooldown)
+        if (!onCooldown && Time.timeScale != 0)
         {
             StartCoroutine(Spawn());
         }

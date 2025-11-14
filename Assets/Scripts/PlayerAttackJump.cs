@@ -22,6 +22,7 @@ public class PlayerAttackJump : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
+            gameObject.GetComponent<AudioSource>().Play();
             body.linearVelocityY = jumpHeight;
             //Debug.Log(isInvincible);
             body.GetComponent<PlayerMovement>().doubleJump = 1;

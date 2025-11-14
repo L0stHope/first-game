@@ -24,12 +24,19 @@ public class EnemyBehaviour : MonoBehaviour
         else
         {
             flyingDirection = 1;
-        }       
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(transform.position);
+        //if(Math.Abs(transform.position.x) < 9)
+        //{
+        //    AudioSource temp = gameObject.GetComponent<AudioSource>();
+        //    //temp.pitch = Random.Range(0.5f, 0.9f);
+        //    temp.Play();
+        //}
         body.linearVelocityX = flyingDirection * floatingSpeed;
         body.linearVelocityY = sinMult * math.sin(body.position.x);
 

@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isInvincible;
 
+    private bool facingRight = true;
+
     void Awake()
     {
         isInvincible = false;
@@ -47,6 +49,15 @@ public class PlayerMovement : MonoBehaviour
         else if (body.linearVelocityX > 1)
         {
             facingDirection = 1;
+        }
+
+        if (body.linearVelocity.x > 0.1f && !facingRight)
+        {
+            Flip();
+        }
+        else if (body.linearVelocity.x < -0.1f && facingRight)
+        {
+            Flip();
         }
 
         body.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.linearVelocityY);
@@ -87,6 +98,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Flip()
+    {
+        facingRight = !facingRight;
+
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
+
     private IEnumerator Dash()
     {
         canDash = false;
@@ -102,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Attack()
     {
+        gameObject.GetComponent<AudioSource>().Play();
         Hitbox.SetActive(true);
         canAttack = false;
         yield return new WaitForSeconds(0.2f);
