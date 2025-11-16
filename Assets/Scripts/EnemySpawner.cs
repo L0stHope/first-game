@@ -2,7 +2,6 @@ using System;
 using Random = UnityEngine.Random;
 using UnityEngine;
 using System.Collections;
-using UnityEditor.Timeline;
 
 public class EnemySpawner : MonoBehaviour
 {

@@ -31,7 +31,7 @@ public class PlatformDissapear : MonoBehaviour
     IEnumerator Blink()
     {
         blinking = true;
-        rend.enabled = !rend.enabled;    // Toggle visibility
+        rend.enabled = !rend.enabled;
         yield return new WaitForSeconds(0.2f);
         blinking = false;
     }

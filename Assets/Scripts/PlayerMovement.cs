@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,15 +16,17 @@ public class PlayerMovement : MonoBehaviour
     private bool canDash = true;
     private bool isDashing;
     private float dashingPower = 24f;
-    private float dashingTime = 0.1f;
+    private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
     [SerializeField] private GameObject Hitbox;
     private bool canAttack;
-
     public bool isInvincible;
 
     private bool facingRight = true;
+    [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource damageSound;
+    [SerializeField] private AudioSource swishSound;
 
     void Awake()
     {
@@ -32,7 +35,6 @@ public class PlayerMovement : MonoBehaviour
         doubleJump = 2;
         canAttack = true;
         body = GetComponent<Rigidbody2D>();
-        
     }
 
     void Update()
@@ -68,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
             doubleJump--;
         }
 
-        if(Input.GetKeyDown(KeyCode.Mouse1) && canDash)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && canDash)
         {
             StartCoroutine(Dash());
         }
@@ -82,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground")
         {
             doubleJump = 2;
         }
@@ -90,11 +92,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy") && !isInvincible && !isStunned && ! isDashing)
+        if (collision.CompareTag("Enemy") && !isInvincible && !isStunned && !isDashing)
         {
+            damageSound.Play();
             doubleJump = 1;
             //Debug.Log("test");
-            StartCoroutine(Stun());     
+            StartCoroutine(Stun());
         }
     }
 
@@ -109,26 +112,31 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        animator.SetBool("isDashing", true);
         canDash = false;
         isDashing = true;
+        Flip();
         float originalGravity = body.gravityScale;
         body.linearVelocity = new Vector2(facingDirection * dashingPower, 0f);
         yield return new WaitForSeconds(dashingTime);
         body.gravityScale = originalGravity;
         isDashing = false;
+        animator.SetBool("isDashing", false);
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
 
     private IEnumerator Attack()
     {
-        gameObject.GetComponent<AudioSource>().Play();
+        animator.SetBool("isAttacking", true);
+        swishSound.Play();
         Hitbox.SetActive(true);
         canAttack = false;
         yield return new WaitForSeconds(0.2f);
         Hitbox.SetActive(false);
         yield return new WaitForSeconds(0.2f);
         canAttack = true;
+        animator.SetBool("isAttacking", false);
     }
 
     private IEnumerator Stun()

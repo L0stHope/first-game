@@ -10,6 +10,7 @@ public class EnemyBehaviour : MonoBehaviour
     private float floatingSpeed;
     private float flyingDirection;
     private float sinMult;
+    private bool facingRight;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +25,9 @@ public class EnemyBehaviour : MonoBehaviour
         else
         {
             flyingDirection = 1;
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
         }
     }
 

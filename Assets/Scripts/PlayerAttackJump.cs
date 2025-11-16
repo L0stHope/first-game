@@ -9,18 +9,20 @@ public class PlayerAttackJump : MonoBehaviour
     //[SerializeField] private GameObject bodyTemp;
     private float jumpHeight;
     public int hits;
+    private bool hit;
     public TMP_Text timeText;
     
 
     private void Start()
     {
+        hit = false;
         hits = 0;
         jumpHeight = body.GetComponent<PlayerMovement>().jumpHeight;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy") && hit == false)
         {
             gameObject.GetComponent<AudioSource>().Play();
             body.linearVelocityY = jumpHeight;
@@ -35,8 +37,10 @@ public class PlayerAttackJump : MonoBehaviour
 
     private IEnumerator FreezeFrame()
     {
+        hit = true;
         Time.timeScale = 0;
         yield return new WaitForSecondsRealtime(0.1f);
         Time.timeScale = 1;
+        hit = false;
     }
 }
